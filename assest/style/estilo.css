@@ -1,0 +1,82 @@
+body {
+  background-color: #141414;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  width: 400;
+}
+
+header {
+  width: 77%;
+  height: 85px;
+  background-color: #141414;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 120px;
+  height: 40px;
+  background-color: #141414;
+}
+
+nav {
+  width: 1000px;
+  height: 60px;
+  background-color: #141414;
+}
+img {
+  width: 130px;
+  justify-content: center;
+}
+
+.link {
+  width: 12px;
+  height: 12px;
+  text-decoration: none;
+  color: #c2c0b2;
+  font-size: 15px;
+  margin-right: 26px;
+}
+
+.link:hover {
+  color: white;
+  transition: all 0.3 ease;
+}
+
+ul {
+  color: aliceblue;
+  font-style: oblique;
+  display: flex;
+  list-style: none;
+}
+
+.contacto {
+  background-color: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #888;
+  padding: 8px 16px;
+  transition: all 0.3 ease;
+  margin-right: 10px;
+}
+.probar {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border-radius: 6px;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+.contacto:hover {
+  background-color: #5a5959;
+  transform: scale(1.05);
+  transition: all 0.3 ease;
+  border-color: rgb(0, 0, 0);
+}
+.probar:hover {
+  transform: scale(1.2);
+  transition: 1s all ease-in-out;
+}

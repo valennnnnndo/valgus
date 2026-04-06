@@ -1,0 +1,38 @@
+main {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  gap: 10%;
+  grid-template-rows: 200px 200px 200px;
+  display: flex;
+  justify-content: center;
+}
+body {
+  background-color: rgb(136, 133, 130);
+}
+h1 {
+  text-align: center;
+  color: cornsilk;
+  font-family: "Crimson Text", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+h4 {
+}
+.producto {
+  background-color: rgb(41, 41, 95);
+  text-align: center;
+  color: aliceblue;
+}
+.produ {
+  background-color: rgb(144, 110, 175);
+  text-align: center;
+}
+.pro {
+  background-color: cadetblue;
+  justify-content: center;
+  text-align: center;
+}
+img {
+  height: 200px;
+  justify-content: center;
+}

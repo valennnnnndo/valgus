@@ -47,7 +47,7 @@ img {
   transition: all 0.3 ease;
 }
 
-ul {
+.lun {
   color: aliceblue;
   font-style: oblique;
   display: flex;
@@ -79,4 +79,94 @@ ul {
 .probar:hover {
   transform: scale(1.2);
   transition: 1s all ease-in-out;
+}
+section {
+  display: grid;
+  grid-template-columns: 70% 70%;
+  gap: 10%;
+  grid-template-rows: 200px 200px;
+  display: flex;
+  justify-content: center;
+}
+.uno {
+  background-color: #252424;
+  border-radius: 8px;
+  border: 1px solid #888;
+  action {
+    border-radius: 8px;
+  }
+  text-align: center;
+}
+h1 {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+.logog {
+  width: 16px;
+  height: 16px;
+}
+.botgo {
+}
+.card {
+  list-style: none;
+  p {
+    text-align: 300px;
+  }
+}
+.email {
+  background-color: #2e2e2b;
+  border: none;
+  border-radius: 9px;
+  padding: 13px 16px;
+  color: #ede5d5;
+  font-size: 15px;
+  width: 100%;
+  outline: none;
+  font-family: "Inter", sans-serif;
+  transition: background 0.15s;
+}
+
+.email::placeholder {
+  color: #666;
+}
+
+.email:focus {
+  background-color: #363633;
+}
+.btn-email {
+  background-color: #ddd6c5;
+  border: none;
+  border-radius: 9px;
+  padding: 13px 20px;
+  color: #1a1a18;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  transition: background 0.15s;
+}
+
+.btn-email:hover {
+  background-color: #cec7b5;
+}
+.ho {
+  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid #fffdfd;
+}
+.continuar {
+  background-color: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #fffdfd;
+  padding: 8px 16px;
+  transition: all 0.3 ease;
+  margin-right: 10px;
+}
+
+.dos {
+  background-color: #c2c0b2;
+  border-radius: 8px;
+
+  border: 1px solid #888;
 }

@@ -82,35 +82,82 @@ img {
 }
 section {
   display: grid;
-  grid-template-columns: 70% 70%;
-  gap: 10%;
-  grid-template-rows: 200px 200px;
-  display: flex;
-  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 85px);
 }
+
 .uno {
-  background-color: #252424;
-  border-radius: 8px;
-  border: 1px solid #888;
-  action {
-    border-radius: 8px;
-  }
+  background-color: invisible;
+  max-width: 420px;
   text-align: center;
+  max-width: 380px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  width: 100%;
+  p {
+    color: white;
+  }
 }
+
 h1 {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 400;
+  color: #ede5d5;
+  text-align: center;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+  word-break: break-word;
+}
+.sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: #c9c0aa;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 .logog {
   width: 16px;
   height: 16px;
 }
 .botgo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #111110;
+  border: none;
+  border-radius: 9px;
+  padding: 13px 20px;
+  color: #ede5d5;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  transition: background 0.2s;
+}
+.botgo:hover {
+  background-color: #1c1c1a;
 }
 .card {
   list-style: none;
-  p {
-    text-align: 300px;
-  }
+  border-radius: 16px;
+  border: 1px solid #2e2e2b;
+  padding: 1.4rem;
+  width: 120%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin-bottom: 1.2rem;
+  text-align: center;
+  box-sizing: border-box;
 }
 .email {
   background-color: #2e2e2b;
@@ -119,7 +166,7 @@ h1 {
   padding: 13px 16px;
   color: #ede5d5;
   font-size: 15px;
-  width: 100%;
+  width: 90%;
   outline: none;
   font-family: "Inter", sans-serif;
   transition: background 0.15s;
@@ -132,7 +179,7 @@ h1 {
 .email:focus {
   background-color: #363633;
 }
-.btn-email {
+.bemail {
   background-color: #ddd6c5;
   border: none;
   border-radius: 9px;
@@ -146,7 +193,7 @@ h1 {
   transition: background 0.15s;
 }
 
-.btn-email:hover {
+.bemail:hover {
   background-color: #cec7b5;
 }
 .ho {
@@ -163,10 +210,53 @@ h1 {
   transition: all 0.3 ease;
   margin-right: 10px;
 }
+.privacy {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.privacy a {
+  color: #888;
+  text-decoration: underline;
+}
+.desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #222220;
+  border: none;
+  border-radius: 9px;
+  padding: 13px 28px;
+  color: #ede5d5;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  transition: background 0.15s;
+}
+
+.btn-desktop:hover {
+  background-color: #2a2a28;
+}
+.icon {
+  width: 16px;
+  height: 16px;
+}
 
 .dos {
   background-color: #c2c0b2;
   border-radius: 8px;
-
-  border: 1px solid #888;
+  width: 700px;
+  height: 800px;
+  border-radius: 12px;
+  border: 1px solid #3a3a3a;
+  background-color: #1a1a1a;
+}
+.fo {
+  width: 700px;
+  height: 800px;
 }

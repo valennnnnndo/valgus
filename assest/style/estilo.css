@@ -16,11 +16,12 @@ header {
   align-items: center;
   justify-content: space-between;
 }
-
-.logo {
-  width: 120px;
+img {
+  display: block;
+}
+.logo img {
+  width: 130px;
   height: 40px;
-  background-color: #141414;
 }
 
 nav {
@@ -34,8 +35,6 @@ img {
 }
 
 .link {
-  width: 12px;
-  height: 12px;
   text-decoration: none;
   color: #c2c0b2;
   font-size: 15px;
@@ -69,6 +68,7 @@ img {
   border-radius: 6px;
   padding: 8px 16px;
   text-decoration: none;
+  font-size: 15px;
 }
 .contacto:hover {
   background-color: #5a5959;
@@ -77,53 +77,60 @@ img {
   border-color: rgb(0, 0, 0);
 }
 .probar:hover {
-  transform: scale(1.2);
-  transition: 1s all ease-in-out;
+  transform: scale(1.05);
+  transition: transform 0.2 ease;
 }
 section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: calc(100vh - 85px);
+  width: 80%;
+  margin: 0 auto;
+  align-items: start;
 }
 
 .uno {
   background-color: invisible;
-  max-width: 420px;
-  text-align: center;
-  max-width: 380px;
+  max-width: 480px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 3rem 2rem;
+
   width: 100%;
-  p {
-    color: white;
-  }
+}
+
+.separador-inicio {
+  color: white;
+  margin: 4px 0;
+  font-weight: 100;
 }
 
 h1 {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
   font-weight: 400;
   color: #ede5d5;
   text-align: center;
   line-height: 1.15;
   margin-bottom: 0.75rem;
   word-break: break-word;
+  width: 100;
 }
+
 .sub {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: #c9c0aa;
-  text-align: center;
+  text-align: left;
   margin-top: 10px;
   margin-bottom: 30px;
 }
 .logog {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 .botgo {
   display: flex;
@@ -133,6 +140,7 @@ h1 {
   background-color: #111110;
   border: none;
   border-radius: 9px;
+  border: 1px solid #c9c0aa;
   padding: 13px 20px;
   color: #ede5d5;
   font-size: 15px;
@@ -146,17 +154,15 @@ h1 {
   background-color: #1c1c1a;
 }
 .card {
-  list-style: none;
-  border-radius: 16px;
+  border-radius: 30px;
   border: 1px solid #2e2e2b;
-  padding: 1.4rem;
-  width: 120%;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  list-style: none;
+  gap: 6px;
   margin-bottom: 1.2rem;
   text-align: center;
+  width: 90%;
   box-sizing: border-box;
 }
 .email {
@@ -166,7 +172,7 @@ h1 {
   padding: 13px 16px;
   color: #ede5d5;
   font-size: 15px;
-  width: 90%;
+  width: 93%;
   outline: none;
   font-family: "Inter", sans-serif;
   transition: background 0.15s;
@@ -180,13 +186,13 @@ h1 {
   background-color: #363633;
 }
 .bemail {
-  background-color: #ddd6c5;
+  background-color: #ffffff;
   border: none;
   border-radius: 9px;
   padding: 13px 20px;
-  color: #1a1a18;
+  color: currentColor;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 550;
   cursor: pointer;
   width: 100%;
   font-family: "Inter", sans-serif;
@@ -194,7 +200,7 @@ h1 {
 }
 
 .bemail:hover {
-  background-color: #cec7b5;
+  background-color: #e7e5e1;
 }
 .ho {
   background-color: transparent;
@@ -229,17 +235,17 @@ h1 {
   background-color: #222220;
   border: none;
   border-radius: 9px;
-  padding: 13px 28px;
+  padding: 13px 24px;
   color: #ede5d5;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  width: 100%;
+  width: auto;
   font-family: "Inter", sans-serif;
   transition: background 0.15s;
 }
 
-.btn-desktop:hover {
+.desktop:hover {
   background-color: #2a2a28;
 }
 .icon {

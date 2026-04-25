@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chat · Ollama</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0c0c0e;
+    --surface: #141416;
+    --surface2: #1c1c20;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --accent: #c8f752;
+    --accent-dim: rgba(200,247,82,0.12);
+    --accent-glow: rgba(200,247,82,0.25);
+    --text: #f0f0ee;
+    --text2: #888885;
+    --text3: #555552;
+    --err: #ff5f5f;
+    --font-h: 'Syne', sans-serif;
+    --font-m: 'DM Mono', monospace;
+  }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-m); font-size: 14px; line-height: 1.6; overflow: hidden; }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+  .layout { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100vh; max-width: 860px; margin: 0 auto; }
+
+  /* Header */
+  header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-box { width: 34px; height: 34px; border: 1.5px solid var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--accent-dim); }
+  .logo-title { font-family: var(--font-h); font-size: 17px; font-weight: 700; }
+  .logo-title span { color: var(--accent); }
+  .pill { display: flex; align-items: center; gap: 7px; padding: 5px 13px; border: 1px solid var(--border2); border-radius: 100px; font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); transition: background .3s, box-shadow .3s; }
+  .dot.ok { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+  .dot.err { background: var(--err); }
+
+  /* Config */
+  .config { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+  .clabel { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); white-space: nowrap; }
+  select { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 5px 10px; font-family: var(--font-m); font-size: 13px; color: var(--accent); outline: none; cursor: pointer; min-width: 220px; }
+  select:focus { border-color: var(--accent); }
+  select option { background: #1c1c20; color: var(--text); }
+  .rbtn { background: transparent; border: 1px solid var(--border2); border-radius: 6px; padding: 5px 11px; font-family: var(--font-m); font-size: 11px; color: var(--text2); cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: border-color .2s, color .2s; }
+  .rbtn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Messages */
+  .msgs { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 2px; scroll-behavior: smooth; }
+  .msgs::-webkit-scrollbar { width: 4px; }
+  .msgs::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  .grp { display: flex; flex-direction: column; gap: 2px; animation: fu .22s ease forwards; opacity: 0; transform: translateY(8px); }
+  @keyframes fu { to { opacity:1; transform:translateY(0); } }
+
+  .meta { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); padding: 0 2px; margin-top: 14px; }
+  .meta.u { text-align: right; }
+  .meta.a { color: var(--accent); opacity: 0.7; }
+
+  .bbl { padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.65; max-width: 82%; white-space: pre-wrap; word-break: break-word; }
+  .bbl.u { align-self: flex-end; background: var(--surface2); border: 1px solid var(--border2); border-bottom-right-radius: 4px; }
+  .bbl.a { align-self: flex-start; background: var(--bg); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-bottom-left-radius: 4px; }
+  .bbl.e { align-self: flex-start; background: rgba(255,95,95,0.08); border: 1px solid rgba(255,95,95,0.25); border-radius: 10px; color: #ff9090; font-size: 13px; max-width: 90%; }
+
+  .typing { align-self: flex-start; display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: var(--bg); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; border-bottom-left-radius: 4px; }
+  .td { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: bk 1.2s ease infinite; opacity: 0.3; }
+  .td:nth-child(2) { animation-delay:.2s; }
+  .td:nth-child(3) { animation-delay:.4s; }
+  @keyframes bk { 0%,100%{opacity:.2;transform:scale(.9);}50%{opacity:1;transform:scale(1.2);} }
+
+  /* Welcome */
+  .welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; height: 100%; text-align: center; animation: fu .4s ease forwards; opacity: 0; }
+  .wi { width: 54px; height: 54px; border: 1.5px solid var(--accent); border-radius: 14px; display: flex; align-items: center; justify-content: center; background: var(--accent-dim); }
+  .welcome h2 { font-family: var(--font-h); font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
+  .welcome p { font-size: 13px; color: var(--text2); max-width: 340px; }
+  .wtag { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); opacity: .8; }
+
+  /* Input */
+  .input-area { padding: 14px 24px 20px; border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+  .irow { display: flex; gap: 10px; align-items: flex-end; background: var(--surface2); border: 1px solid var(--border2); border-radius: 14px; padding: 10px 10px 10px 16px; transition: border-color .2s; }
+  .irow:focus-within { border-color: rgba(200,247,82,.35); }
+  textarea { flex: 1; background: transparent; border: none; outline: none; font-family: var(--font-m); font-size: 14px; color: var(--text); resize: none; line-height: 1.6; min-height: 22px; max-height: 140px; overflow-y: auto; caret-color: var(--accent); }
+  textarea::placeholder { color: var(--text3); }
+  .sbtn { width: 38px; height: 38px; border-radius: 10px; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .2s, transform .15s; }
+  .sbtn:hover { opacity: .85; }
+  .sbtn:active { transform: scale(.94); }
+  .sbtn:disabled { opacity: .25; cursor: not-allowed; transform: none; }
+  .hint { font-size: 11px; color: var(--text3); text-align: center; margin-top: 9px; }
+  .hint kbd { display: inline-block; padding: 1px 6px; border: 1px solid var(--border2); border-radius: 4px; font-family: var(--font-m); font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header>
+    <div class="logo">
+      <div class="logo-box">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="3" fill="#c8f752"/>
+          <circle cx="9" cy="3" r="1.5" fill="#c8f752" opacity="0.5"/>
+          <circle cx="9" cy="15" r="1.5" fill="#c8f752" opacity="0.5"/>
+          <circle cx="3" cy="9" r="1.5" fill="#c8f752" opacity="0.5"/>
+          <circle cx="15" cy="9" r="1.5" fill="#c8f752" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="logo-title">Ollama<span>Chat</span></div>
+    </div>
+    <div class="pill">
+      <div class="dot" id="dot"></div>
+      <span id="stxt">cargando...</span>
+    </div>
+  </header>
+
+  <div class="config">
+    <span class="clabel">Modelo</span>
+    <select id="msel"><option value="">Cargando modelos...</option></select>
+    <button class="rbtn" id="rbtn">↺ Actualizar</button>
+  </div>
+
+  <div class="msgs" id="msgs">
+    <div class="welcome" id="welcome">
+      <div class="wi">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <path d="M13 4L22 19H4L13 4Z" stroke="#c8f752" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          <circle cx="13" cy="13" r="2" fill="#c8f752"/>
+        </svg>
+      </div>
+      <div class="wtag">Listo para chatear</div>
+      <h2>¿Qué querés saber?</h2>
+      <p>Se va a cargar automáticamente la lista de modelos instalados en tu servidor.</p>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="irow">
+      <textarea id="txt" rows="1" placeholder="Escribí tu mensaje..."></textarea>
+      <button class="sbtn" id="sbtn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 14L14 8L2 2V6.5L10 8L2 9.5V14Z" fill="#0c0c0e"/>
+        </svg>
+      </button>
+    </div>
+    <div class="hint">Presioná <kbd>Enter</kbd> para enviar · <kbd>Shift+Enter</kbd> nueva línea</div>
+  </div>
+
+</div>
+<script>
+const BASE = "http://187.127.253.96:11434";
+const msgsEl = document.getElementById("msgs");
+const txtEl  = document.getElementById("txt");
+const sbtn   = document.getElementById("sbtn");
+const msel   = document.getElementById("msel");
+const dot    = document.getElementById("dot");
+const stxt   = document.getElementById("stxt");
+const rbtn   = document.getElementById("rbtn");
+let busy = false;
+
+function setStatus(s) {
+  dot.className = "dot" + (s==="ok"?" ok":s==="err"?" err":"");
+  stxt.textContent = s==="ok"?"conectado":s==="err"?"error":"cargando...";
+}
+
+async function loadModels() {
+  msel.innerHTML = '<option value="">Cargando...</option>';
+  setStatus("load");
+  try {
+    const r = await fetch(BASE + "/api/tags");
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    const models = d.models || [];
+    if (!models.length) {
+      msel.innerHTML = '<option value="">Sin modelos — corré: ollama pull llama3.2</option>';
+      setStatus("err"); return;
+    }
+    msel.innerHTML = models.map(m => `<option value="${m.name}">${m.name}</option>`).join("");
+    setStatus("ok");
+  } catch(e) {
+    msel.innerHTML = '<option value="">No se pudo conectar al servidor</option>';
+    setStatus("err");
+  }
+}
+rbtn.addEventListener("click", loadModels);
+loadModels();
+
+txtEl.addEventListener("input", () => {
+  txtEl.style.height = "auto";
+  txtEl.style.height = Math.min(txtEl.scrollHeight, 140) + "px";
+});
+
+function rmWelcome() { const w=document.getElementById("welcome"); if(w) w.remove(); }
+
+function mkMeta(lbl, cls) {
+  const m = document.createElement("div");
+  m.className = "meta " + cls;
+  m.textContent = lbl;
+  return m;
+}
+function mkBubble(txt, cls) {
+  const b = document.createElement("div");
+  b.className = "bbl " + cls;
+  b.textContent = txt;
+  return b;
+}
+function mkGroup(...kids) {
+  rmWelcome();
+  const g = document.createElement("div");
+  g.className = "grp";
+  kids.forEach(k => g.appendChild(k));
+  msgsEl.appendChild(g);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+  return g;
+}
+function mkTyping() {
+  rmWelcome();
+  const g = document.createElement("div");
+  g.className = "grp";
+  g.appendChild(mkMeta("ollama","a"));
+  const t = document.createElement("div");
+  t.className = "typing";
+  t.innerHTML = '<div class="td"></div><div class="td"></div><div class="td"></div>';
+  g.appendChild(t);
+  msgsEl.appendChild(g);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+  return g;
+}
+
+async function send() {
+  if (busy) return;
+  const prompt = txtEl.value.trim();
+  const model  = msel.value;
+  if (!prompt) return;
+  if (!model) { alert("Esperá a que carguen los modelos o hacé clic en Actualizar."); return; }
+
+  txtEl.value = "";
+  txtEl.style.height = "auto";
+  busy = true;
+  sbtn.disabled = true;
+
+  mkGroup(mkMeta("vos","u"), mkBubble(prompt,"u"));
+  const tg = mkTyping();
+
+  try {
+    const res = await fetch(BASE + "/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model, prompt, stream: true })
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status + " — " + res.statusText);
+    setStatus("ok");
+    tg.remove();
+
+    const aiBbl = mkBubble("","a");
+    mkGroup(mkMeta("ollama","a"), aiBbl);
+
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let full = "";
+    while(true) {
+      const {done,value} = await reader.read();
+      if(done) break;
+      for(const line of dec.decode(value,{stream:true}).split("\n")) {
+        if(!line.trim()) continue;
+        try {
+          const j = JSON.parse(line);
+          if(j.response) { full += j.response; aiBbl.textContent = full; msgsEl.scrollTop = msgsEl.scrollHeight; }
+        } catch {}
+      }
+    }
+    if(!full) aiBbl.textContent = "(respuesta vacía)";
+  } catch(err) {
+    setStatus("err");
+    tg.remove();
+    const g = document.createElement("div");
+    g.className = "grp";
+    g.appendChild(mkBubble("⚠ " + err.message, "e"));
+    msgsEl.appendChild(g);
+    msgsEl.scrollTop = msgsEl.scrollHeight;
+  }
+
+  busy = false;
+  sbtn.disabled = false;
+  txtEl.focus();
+}
+
+sbtn.addEventListener("click", send);
+txtEl.addEventListener("keydown", e => { if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();} });
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="justify-center">Tienda</h1>
+
+    <img
+      src="https://tienda.anywayinsumos.com.ar/21301-medium_default/termo-stanley-clasico-950-ml-con-manija-y-tapon-cebador-lake-10-10148-043.jpg"
+      alt="termo"
+    />
+
+    <div class="producto">
+      <h2>Termo</h2>
+      <p>$12.999</p>
+      <button onclick="cambiar(0, -1)">−</button>
+      <span id="qty-0">1</span>
+      <button onclick="cambiar(0, 1)">+</button>
+      <br />
+      <button class="comprar" onclick="comprar(0)">Comprar</button>
+    </div>
+
+    <div class="producto">
+      <img
+        src="https://www.matesimperiales.ar/mi/image/cache/catalog/demo/product/MI_006-1000x1000.png"
+        alt="mate"
+        height="190"
+      />
+      <h2>Mate</h2>
+      <p>$18.500</p>
+      <button onclick="cambiar(1, -1)">−</button>
+      <span id="qty-1">1</span>
+      <button onclick="cambiar(1, 1)">+</button>
+      <br />
+      <button class="comprar" onclick="comprar(1)">Comprar</button>
+    </div>
+
+    <p id="mensaje"></p>
+    <script src="./main.js"></script>
+  </body>
+</html>

@@ -1,62 +1,35 @@
-const alumnos = [];
-function agregarAlumno(nombre1, nombre2, nombre3, nombre4, nombre5) {
-  alumnos.push(nombre1);
-  alumnos.push(nombre2);
-  alumnos.push(nombre3);
-  alumnos.push(nombre4);
-  alumnos.push(nombre5);
-}
+const alumnos = ["Ana", "Juan", "Lucas", "Maris"];
 
-agregarAlumno("Valentina", "agu", "milton", "luz", "juan");
+alumnos.forEach((alumno) => {
+  console.log(alumno);
+});
 
-function mostrarAlumnos() {
-  for (let index = 0; index < alumnos.length; index++) {
-    console.log(alumnos[index]);
-  }
-}
-mostrarAlumnos();
+const nombresMayusculas = alumnos.map((alumno) => {
+  return alumno.toUpperCase();
+});
 
-function cant() {
-  console.log(alumnos.length);
-}
+console.log(nombresMayusculas);
 
-cant();
+const nombresLargos = alumnos.filter((alumno) => {
+  return alumno.length > 4;
+});
 
-function mostrar() {
-  console.log("Primer alumno:", alumnos[0]);
-  console.log("Último alumno:", alumnos[alumnos.length - 1]);
-}
-mostrar();
+console.log(nombresLargos);
 
-function posicion(nombre) {
-  alumnos.indexOf(nombre);
-}
-posicion();
+const encontrado = alumnos.find((alumno) => {
+  return alumno === "Juan";
+});
 
-function eliminar() {
-  alumnos.shift();
-  alumnos.pop();
+console.log(encontrado);
 
-  console.log("Se eliminó el primer y último alumno.");
-}
-eliminar();
+const hayNombreLargo = alumnos.some((alumno) => {
+  return alumno.length > 5;
+});
 
-function agregarinicio(nombre) {
-  alumnos.unshift(nombre);
+console.log(hayNombreLargo);
 
-  console.log("alumn agregado al inicio ");
-}
-agregarinicio();
+const todosTienen4Letras = alumnos.every((alumno) => {
+  return alumno.length >= 4;
+});
 
-function agregarfinal(nombre) {
-  alumnos.push(nombre);
-
-  console.log("alumno agregado al final ");
-}
-agregarfinal();
-
-function cambiarnombre(nombre) {
-  alumnos[0] = nombre;
-  console.log("se cambbio el nombre");
-}
-cambiarnombre();
+console.log(todosTienen4Letras);

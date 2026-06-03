@@ -1,10 +1,8 @@
 const persona = {
-  nombre: Valentina,
+  nombre: "Valentina",
   edad: 18,
   estudia: true,
-
   hobbies: ["Escuchar música", "Leer", "gym", "Salir con amigos"],
-
   direccion: {
     calle: "San Martín 123",
     ciudad: "Baradero",
@@ -39,7 +37,7 @@ const persona = {
   mascotas: [
     {
       nombre: "Violeta",
-      especie: "Perro csniche",
+      especie: "Perro caniche",
       edad: 14,
     },
     {
@@ -67,3 +65,7 @@ persona.experiencias.forEach((exper) => {
 });
 
 persona.hobbies.push("ver series");
+console.log("hobbies actualizados");
+console.log(persona.hobbies);
+
+//localStorage.setItem("nombre", "val");
